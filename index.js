@@ -1,10 +1,19 @@
-const express = require('express')
-const app = express()
+const customExpress = require('./config/customExpress')
+const database = require('./database/db')
+const tabela = require('./database/tabelas')
 
-app.listen(3000, () => {
-    console.log("Tudo certo, nada errado!")
-})
+database.connect(erro => {
+    if(erro){
+        console.log('Deu ruim, meu chefe.')
+    } else {
+        console.log('Tudo tranquilo!')
 
-app.get('/pedidos', (req, res) => {
-    res.send('Página de pedidos!')
+        tabela.iniciar(database)
+        
+        const app = customExpress()
+
+        app.listen(3000, () => {
+            console.log("Servidor rodando!")
+        })
+    }
 })
