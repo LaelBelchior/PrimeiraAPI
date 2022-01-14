@@ -1,6 +1,5 @@
 const db = require('../database/db')
 const moment = require('moment')
-const { response } = require('express')
 
 class Pedido{
     adiciona(pedido, res){
@@ -40,6 +39,58 @@ class Pedido{
                 }
             })
         }
+    }
+
+    lista(res){
+        const sql = 'SELECT * FROM Pedidos'
+
+        db.query(sql, (erro, resultados) => {
+            if(erro){
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultados)
+            }
+        })
+    }
+
+    buscaPorId(id, res){
+        const sql = `SELECT * FROM Pedidos WHERE id = ${id}`
+
+        db.query(sql, (erro, resultados) => {
+            const pedidoUnico = resultados[0]
+            if(erro){
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(pedidoUnico)
+            }
+        })
+    }
+
+    altera(id, valores, res) {
+        if(valores.data){
+            valores.data = moment(valores.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+        }
+        const sql = 'UPDATE Pedidos SET ? WHERE id=?'
+    
+        db.query(sql, [valores, id], (erro, resultados) => { 
+            if(erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultados)
+            }
+        })    
+    }
+
+    deleta(id, res){
+        const sql = 'DELETE FROM Pedidos WHERE id=?'
+
+        db.query(sql, id, (erro, resultados) => {
+            if(erro){
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json({id})
+            }
+        })
     }
 }
 
