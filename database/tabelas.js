@@ -5,7 +5,7 @@ class Tabela {
     }
 
     criarPedido(){
-        const sql = 'CREATE TABLE IF NOT EXISTS Pedidos (id int NOT NULL AUTO_INCREMENT, cliente varchar(30) NOT NULL, combo varchar(30) NOT NULL, endereco varchar(50) NOT NULL, observacoes text, PRIMARY KEY (id))'
+        const sql = 'CREATE TABLE IF NOT EXISTS Pedidos (id int NOT NULL AUTO_INCREMENT, cliente varchar(30) NOT NULL, combo varchar(30) NOT NULL, endereco varchar(50) NOT NULL, data datetime NOT NULL, dataCriacao datetime NOT NULL, observacoes text, PRIMARY KEY (id))'
         
         this.conexao.query(sql, erro => {
             if(erro){

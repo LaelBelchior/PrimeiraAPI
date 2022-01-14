@@ -7,7 +7,6 @@ module.exports = app => {
 
     app.post('/pedidos', (req, res) => {
         const pedido = req.body
-        Pedido.adiciona(pedido)
-        res.send('POST PEDIDO')
+        Pedido.adiciona(pedido, res)
     })
 }
